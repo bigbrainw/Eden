@@ -6,6 +6,7 @@ import Countdown from "../components/Countdown";
 import FadeIn from "../components/FadeIn";
 import SponsorMarquee from "../components/SponsorMarquee";
 import { useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 function HoverScaleCountdown() {
   // 用 pointer enter/leave 控制 hover 狀態
@@ -115,29 +116,6 @@ export default function Home() {
             <div className="flex justify-center w-full my-8 max-w-full">
               <Countdown />
             </div>
-            <div className="flex flex-row gap-3 flex-wrap justify-center w-full max-w-full">
-              <Link
-                href="#agenda"
-                className="px-6 md:px-10 py-3 rounded-xl bg-[linear-gradient(120deg,#22d3ee,#2563eb)] text-white text-base md:text-lg font-bold shadow-lg transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_0_28px_rgba(34,211,238,0.6)] active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-300 animate-[fadeDown_1.2s_ease_forwards] whitespace-normal break-words"
-                style={{ animationDelay: "0.18s" }}
-              >
-                活動介紹
-              </Link>
-              <Link
-                href="/agenda"
-                className="px-6 md:px-10 py-3 rounded-xl bg-[linear-gradient(120deg,#22d3ee,#2563eb)] text-white text-base md:text-lg font-bold shadow-lg transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_0_28px_rgba(34,211,238,0.6)] active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-300 animate-[fadeDown_1.2s_ease_forwards] whitespace-normal break-words"
-                style={{ animationDelay: "0.36s" }}
-              >
-                議程
-              </Link>
-              <Link
-                href="/signup"
-                className="px-6 md:px-10 py-3 rounded-xl border-2 border-cyan-400 text-cyan-200 text-base md:text-lg font-bold shadow-lg transition-all duration-200 hover:bg-cyan-400/10 hover:-translate-y-1 hover:shadow-[0_0_28px_rgba(34,211,238,0.6)] active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-300 animate-[fadeDown_1.2s_ease_forwards] whitespace-normal break-words"
-                style={{ animationDelay: "0.54s" }}
-              >
-                報名
-              </Link>
-            </div>
           </section>
         </FadeIn>
       </main>
@@ -243,12 +221,41 @@ export default function Home() {
         </div>
       </footer>
       {/* 右下角浮動報名按鈕 */}
-      <Link
-        href="/signup"
-        className="fixed bottom-6 right-6 z-50 rounded-full bg-gradient-to-r from-cyan-400 to-blue-600 text-white font-bold text-base md:text-lg px-6 py-4 shadow-lg transition-all duration-200 hover:scale-110 hover:shadow-[0_0_28px_rgba(34,211,238,0.8)] active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-300 flex items-center justify-center min-w-[120px]"
+      <motion.div
+        className="fixed bottom-6 right-6 z-50"
+        whileHover={{
+          scale: 1.1,
+        }}
       >
-        立即報名
-      </Link>
+        <motion.div
+          className="rounded-full shadow-lg animate-gradient-xy"
+          style={{
+            background:
+              "linear-gradient(135deg, #475569 0%, #6366f1 45%, #a855f7 90%, #334155 100%)", // slate-600, indigo-500, purple-500, slate-700
+            backgroundSize: "200% 200%",
+            // backdropBlur optional if you want the mystic touch, otherwise can remove:
+            backdropFilter: "blur(8px)"
+          }}
+          animate={{
+            boxShadow: [
+              "0 0 0 0 rgba(34, 211, 238, 0.7)",
+              "0 0 0 30px rgba(34, 211, 238, 0)",
+            ],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeOut",
+          }}
+        >
+          <Link
+            href="/signup"
+            className="block rounded-full font-bold text-white text-base md:text-lg px-6 py-4 focus:outline-none focus:ring-2 focus:ring-cyan-300 flex items-center justify-center min-w-[120px] relative z-10"
+          >
+            立即報名
+          </Link>
+        </motion.div>
+      </motion.div>
       {/* Parallax Effect Script (removed) */}
       {/* no script here, background will not move with scroll */}
     </div>
