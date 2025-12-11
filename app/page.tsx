@@ -5,40 +5,9 @@ import Link from "next/link";
 import Countdown from "../components/Countdown";
 import FadeIn from "../components/FadeIn";
 import SponsorMarquee from "../components/SponsorMarquee";
-import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 
-function HoverScaleCountdown() {
-  // 用 pointer enter/leave 控制 hover 狀態
-  const [hovering, setHovering] = useState(false);
-  return (
-    <div
-      className={`transition-all duration-200 ${
-        hovering
-          ? "scale-105 -translate-y-1 shadow-[0_0_32px_rgba(34,211,238,0.45)]"
-          : ""
-      }`}
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
-      style={{
-        borderRadius: "1rem",
-      }}
-    >
-      <Countdown />
-    </div>
-  );
-}
-
-import { useCallback } from "react";
-
 export default function Home() {
-  // 首頁平滑滾動至頂端
-  const handleHomeClick = useCallback((e: React.MouseEvent) => {
-    if (typeof window !== "undefined" && window.location.pathname === "/") {
-      e.preventDefault();
-      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    }
-  }, []);
 
   return (
     <div
@@ -50,36 +19,6 @@ export default function Home() {
         backgroundPosition: "center",
       }}
     >
-      {/* 滑鼠移上時有互動效果的主頁選單 */}
-      <div className="fixed top-0 left-0 w-full z-50 flex justify-end p-5 backdrop-blur-md bg-gradient-to-r from-black/70 via-blue-950/50 to-transparent">
-        <nav className="flex gap-5 md:gap-8 pr-2">
-          <Link
-            href="/"
-            className="px-5 py-2 rounded-lg bg-black/30 text-cyan-200 font-semibold tracking-wide text-base md:text-lg shadow transition 
-              hover:bg-cyan-600/30 hover:text-white hover:-translate-y-1 hover:scale-105
-              active:scale-95 outline-none focus:ring-2 focus:ring-cyan-500"
-            onClick={handleHomeClick}
-          >
-            首頁
-          </Link>
-          <Link
-            href="#agenda"
-            className="px-5 py-2 rounded-lg bg-black/30 text-cyan-200 font-semibold tracking-wide text-base md:text-lg shadow transition-all duration-300 
-              hover:bg-cyan-600/30 hover:text-white hover:-translate-y-1 hover:scale-105
-              active:scale-95 outline-none focus:ring-2 focus:ring-cyan-500"
-          >
-            議程
-          </Link>
-          <Link
-            href="/signup"
-            className="px-5 py-2 rounded-lg bg-gradient-to-r from-cyan-400/80 to-blue-600/80 text-white font-bold tracking-wide text-base md:text-lg shadow-lg transition 
-              hover:from-cyan-300 hover:to-blue-500 hover:-translate-y-1 hover:scale-105
-              active:scale-95 outline-none focus:ring-2 focus:ring-cyan-300"
-          >
-            我要報名
-          </Link>
-        </nav>
-      </div>
 
       {/* 背景層移除，直接用根div的 fixed background */}
       {/* <div
@@ -115,6 +54,17 @@ export default function Home() {
             {/* Countdown 元件置中，hover 效果取消，只顯示一般狀態 */}
             <div className="flex justify-center w-full my-8 max-w-full">
               <Countdown />
+            </div>
+            {/* 報名按鈕置中，放在倒數計時下方 */}
+            <div className="flex justify-center w-full mt-8 max-w-full">
+              <Link
+                href="/signup"
+                className="px-8 py-3 md:px-10 md:py-4 rounded-lg bg-gradient-to-r from-cyan-400/80 to-blue-600/80 text-white font-bold tracking-wide text-base md:text-lg shadow-lg transition-all duration-200 
+                  hover:from-cyan-300 hover:to-blue-500 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_0_24px_rgba(34,211,238,0.5)]
+                  active:scale-95 outline-none focus:ring-2 focus:ring-cyan-300"
+              >
+                我要報名
+              </Link>
             </div>
           </section>
         </FadeIn>
@@ -175,6 +125,64 @@ export default function Home() {
           </div>
         </section>
       </FadeIn>
+      {/* 活動議程區塊 */}
+      <FadeIn>
+        <section id="agenda" className="w-full flex flex-col items-center z-10 mt-16 px-4 pb-16 relative max-w-full">
+          <h2 className="text-white text-xl md:text-3xl font-bold mb-10 tracking-wide flex items-center gap-4 justify-center text-center break-words whitespace-normal">
+            <span className="inline-block h-1 w-8 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full" />
+            活動議程
+            <span className="inline-block h-1 w-8 bg-gradient-to-l from-teal-400 to-cyan-400 rounded-full" />
+          </h2>
+          <div className="max-w-xl w-full">
+            <ol className="relative border-s-2 border-cyan-600 ml-4">
+              <li className="mb-12 last:mb-0 flex items-start group">
+                <span className="flex items-center justify-center w-7 h-7 bg-cyan-500 rounded-full -left-4 absolute border-4 border-blue-950 shadow-lg"></span>
+                <div className="ml-8">
+                  <time className="block text-cyan-300 text-lg font-bold mb-1 tracking-wide drop-shadow">
+                    09:00
+                  </time>
+                  <div className="text-white text-xl font-semibold mb-2">
+                    報到與交流
+                  </div>
+                </div>
+              </li>
+              <li className="mb-12 last:mb-0 flex items-start group">
+                <span className="flex items-center justify-center w-7 h-7 bg-cyan-500 rounded-full -left-4 absolute border-4 border-blue-950 shadow-lg"></span>
+                <div className="ml-8">
+                  <time className="block text-cyan-300 text-lg font-bold mb-1 tracking-wide drop-shadow">
+                    10:00
+                  </time>
+                  <div className="text-white text-xl font-semibold mb-2">
+                    開幕演講：未來的邊界
+                  </div>
+                </div>
+              </li>
+              <li className="mb-12 last:mb-0 flex items-start group">
+                <span className="flex items-center justify-center w-7 h-7 bg-cyan-500 rounded-full -left-4 absolute border-4 border-blue-950 shadow-lg"></span>
+                <div className="ml-8">
+                  <time className="block text-cyan-300 text-lg font-bold mb-1 tracking-wide drop-shadow">
+                    12:00
+                  </time>
+                  <div className="text-white text-xl font-semibold mb-2">
+                    午餐
+                  </div>
+                </div>
+              </li>
+              <li className="flex items-start group">
+                <span className="flex items-center justify-center w-7 h-7 bg-cyan-500 rounded-full -left-4 absolute border-4 border-blue-950 shadow-lg"></span>
+                <div className="ml-8">
+                  <time className="block text-cyan-300 text-lg font-bold mb-1 tracking-wide drop-shadow">
+                    13:30
+                  </time>
+                  <div className="text-white text-xl font-semibold mb-2">
+                    分組論壇
+                  </div>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </section>
+      </FadeIn>
       {/* 活動地點地圖區塊 */}
       <FadeIn>
         <section className="w-full flex flex-col items-center z-10 mt-16 px-4 pb-16 relative max-w-full">
@@ -215,9 +223,32 @@ export default function Home() {
         </div>
       </FadeIn>
       {/* Footer */}
-      <footer className="w-full bg-gradient-to-r from-indigo-950 to-gray-950 py-6 mt-auto text-center relative z-10 max-w-full px-4">
-        <div className="text-cyan-100 text-sm tracking-wider select-none break-words whitespace-normal">
-          Copyright © 2026 次世代論壇
+      <footer className="w-full bg-gradient-to-r from-indigo-950 to-gray-950 py-8 md:py-12 mt-auto relative z-10 max-w-full px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 mb-6">
+            {/* Contact Us Section */}
+            <div className="flex flex-col items-center md:items-start gap-4">
+              <h3 className="text-white text-lg md:text-xl font-bold tracking-wide">聯絡我們</h3>
+              <div className="flex flex-col gap-3 text-cyan-100 text-sm md:text-base">
+                <div className="flex items-center gap-3">
+                  <svg className="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <span className="break-words whitespace-normal">email@example.com</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <svg className="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span className="break-words whitespace-normal">+886-XX-XXXX-XXXX</span>
+                </div>
+              </div>
+            </div>
+            {/* Copyright */}
+            <div className="text-cyan-100 text-sm tracking-wider select-none break-words whitespace-normal text-center md:text-right">
+              Copyright © 2026 次世代論壇
+            </div>
+          </div>
         </div>
       </footer>
       {/* 右下角浮動報名按鈕 */}
